@@ -11,11 +11,20 @@
         --bg-dark: #010101;
         --bg-card: rgba(12, 12, 18, 0.65);
         --accent-primary: #deff9a;
+        --accent-gradient-start: #deff9a;
+        --accent-gradient-end: #a8e05a;
         --text-primary: #e8e8e8;
         --text-secondary: #aaaaaa;
-        --border-glow: rgba(222, 255, 154, 0.15);
-        --font-heading: 'Space Grotesk', sans-serif;
+        --gradient-bg-1: #0a0a0a;
+        --gradient-bg-2: #000000;
+        --glow-color: rgba(222, 255, 154, 0.08);
+        --font-heading: 'Space Grotesk', 'Inter', sans-serif;
         --font-body: 'Inter', sans-serif;
+        --border-glow: rgba(222, 255, 154, 0.15);
+        --shadow-cta: rgba(222, 255, 154, 0.2);
+        --danger: #ff6b6b;
+        --warning: #ffd93d;
+        --success: #4ade80;
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -29,96 +38,210 @@
     .animated-bg {
         position: fixed;
         top: 0; left: 0; width: 100%; height: 100%;
-        background: radial-gradient(circle at 20% 30%, #0a0a0a 0%, #000 100%);
+        background: radial-gradient(circle at 20% 30%, var(--gradient-bg-1) 0%, var(--gradient-bg-2) 100%);
         z-index: 0;
     }
+    
+    .grid-overlay {
+        position: fixed;
+        top: 0; left: 0; width: 100%; height: 100%;
+        background-image: linear-gradient(var(--accent-primary) 0.5px, transparent 0.5px),
+                          linear-gradient(90deg, var(--accent-primary) 0.5px, transparent 0.5px);
+        background-size: 50px 50px;
+        opacity: 0.03;
+        pointer-events: none;
+        z-index: 1;
+    }
 
-    .container { position: relative; z-index: 10; max-width: 1400px; margin: 0 auto; padding: 40px 5%; }
+    .container {
+        position: relative;
+        z-index: 10;
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 40px 5%;
+    }
 
     .header {
-        position: fixed; top: 0; left: 0; right: 0;
-        background: rgba(0,0,0,0.8); backdrop-filter: blur(20px);
-        z-index: 100; padding: 16px 5%; border-bottom: 1px solid var(--border-glow);
+        position: fixed;
+        top: 0; left: 0; right: 0;
+        background: rgba(0,0,0,0.8);
+        backdrop-filter: blur(20px);
+        z-index: 100;
+        padding: 16px 5%;
+        border-bottom: 1px solid var(--border-glow);
     }
-    .header-content { display: flex; justify-content: space-between; align-items: center; }
-    .logo { font-size: 1.6rem; font-weight: 800; font-family: var(--font-heading); }
-
-    section { margin: 80px 0; text-align: center; }
-    .section-title { font-size: 2.5rem; margin-bottom: 20px; }
-    .divider-center { width: 80px; height: 4px; background: var(--accent-primary); margin: 20px auto; }
-
-    /* TIMER REGRESSIVO - FORMATO HH:MM:SS */
-    .timer-wrapper { max-width: 500px; margin: 0 auto 40px auto; }
-    .timer-banner {
-        background: rgba(222, 255, 154, 0.05);
-        border: 1px solid var(--border-glow);
+    .header-content {
+        max-width: 1400px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 20px;
+    }
+    .logo {
+        font-size: 1.6rem;
+        font-weight: 800;
+        font-family: var(--font-heading);
+    }
+    .nav-links {
+        display: flex;
+        gap: 30px;
+        align-items: center;
+    }
+    .nav-links a {
+        color: var(--text-primary);
+        text-decoration: none;
+        transition: 0.2s;
+        font-weight: 500;
+    }
+    .nav-links a:hover { color: var(--accent-primary); }
+    .btn-wpp-small {
+        background: var(--accent-primary);
+        color: #000;
+        padding: 8px 20px;
         border-radius: 60px;
-        padding: 15px 25px;
+        font-weight: 700;
+        text-decoration: none;
+    }
+
+    section { margin: 80px 0; scroll-margin-top: 100px; }
+    .section-title { text-align: center; font-size: 2.5rem; margin-bottom: 20px; }
+    .divider-center {
+        width: 80px; height: 4px;
+        background: linear-gradient(90deg, var(--accent-primary), transparent);
+        margin: 20px auto;
+    }
+
+    /* TIMER REGRESSIVO HH:MM:SS */
+    .timer-wrapper { max-width: 480px; margin: 0 auto 40px auto; }
+    .timer-banner {
+        background: linear-gradient(135deg, rgba(0,0,0,0.7) 0%, rgba(222,255,154,0.05) 100%);
+        border: 1px solid rgba(222,255,154,0.2);
+        border-radius: 60px;
+        padding: 12px 20px;
         backdrop-filter: blur(12px);
     }
-    .timer-content { display: flex; align-items: center; justify-content: center; gap: 12px; }
-    .timer-display { display: flex; align-items: center; gap: 8px; }
-    .timer-block { display: flex; align-items: baseline; background: rgba(0,0,0,0.3); padding: 5px 10px; border-radius: 12px; }
-    .timer-number { font-size: 1.5rem; font-weight: 800; font-family: 'Space Grotesk', monospace; color: var(--accent-primary); min-width: 35px; }
-    .timer-label { font-size: 0.65rem; color: var(--text-secondary); margin-left: 2px; text-transform: uppercase; }
-    .separator { color: var(--accent-primary); font-weight: bold; font-size: 1.2rem; }
+    .timer-content { display: flex; align-items: center; justify-content: center; gap: 15px; flex-wrap: wrap; }
+    .timer-label-icon {
+        display: flex; align-items: center; gap: 6px;
+        background: rgba(222,255,154,0.1);
+        padding: 5px 12px; border-radius: 40px;
+    }
+    .timer-label-icon span { font-size: 0.7rem; font-weight: 600; color: var(--accent-primary); }
+    .timer-display { display: flex; align-items: center; gap: 5px; background: rgba(0,0,0,0.4); padding: 4px 12px; border-radius: 40px; }
+    .timer-block { display: flex; align-items: baseline; gap: 2px; }
+    .timer-number {
+        font-size: 1.3rem; font-weight: 800; font-family: 'Space Grotesk', monospace;
+        color: var(--accent-primary); background: rgba(0,0,0,0.5);
+        padding: 4px 8px; border-radius: 10px; min-width: 45px; text-align: center;
+    }
+    .timer-separator { font-size: 1.2rem; font-weight: 700; color: var(--accent-primary); }
+    .timer-label { font-size: 0.6rem; color: var(--text-secondary); }
 
-    /* Cards de Planos */
+    /* CONTADOR DE VAGAS */
+    .counter-banner {
+        background: linear-gradient(135deg, rgba(222,255,154,0.12), rgba(0,0,0,0.6));
+        border: 1px solid var(--accent-primary);
+        border-radius: 60px; padding: 12px 24px; text-align: center;
+        max-width: 400px; margin: 0 auto 40px auto;
+    }
+    .counter-number { font-size: 2.2rem; font-weight: 800; color: var(--accent-primary); margin-right: 8px; }
+
+    /* CARDS */
     .plans-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; margin-top: 40px; }
     .plan-card {
-        background: var(--bg-card); border: 1px solid var(--border-glow);
-        border-radius: 32px; padding: 40px 30px; width: 100%; max-width: 350px;
+        background: var(--bg-card); backdrop-filter: blur(14px);
+        border: 1px solid var(--border-glow); border-radius: 32px;
+        padding: 40px 30px; width: 100%; max-width: 350px; position: relative; transition: 0.3s;
     }
-    .plan-card.popular { border: 2px solid var(--accent-primary); transform: scale(1.05); }
+    .plan-card.popular { border: 2px solid var(--accent-primary); transform: scale(1.02); }
+    .popular-badge {
+        position: absolute; top: -15px; left: 50%; transform: translateX(-50%);
+        background: var(--accent-primary); color: #000; padding: 6px 20px;
+        border-radius: 60px; font-weight: 800; font-size: 0.8rem;
+    }
     .plan-price { font-size: 2.8rem; font-weight: 800; color: var(--accent-primary); margin: 20px 0; }
-    
+    .plan-features { list-style: none; margin: 25px 0; text-align: left; }
+    .plan-features li { margin: 12px 0; display: flex; align-items: center; gap: 10px; }
+    .plan-features i { color: var(--accent-primary); }
+
     .btn-plan {
-        display: block; text-align: center; background: var(--accent-primary);
-        color: #000; padding: 14px; border-radius: 60px; text-decoration: none; font-weight: 700;
+        display: block; text-align: center; background: rgba(222,255,154,0.15);
+        border: 1px solid var(--border-glow); padding: 14px; border-radius: 60px;
+        color: var(--text-primary); text-decoration: none; font-weight: 700; transition: 0.2s;
+    }
+    .btn-plan:hover, .btn-plan-primary { background: var(--accent-primary); color: #000; }
+
+    .glass-card {
+        background: var(--bg-card); backdrop-filter: blur(14px);
+        border: 1px solid var(--border-glow); border-radius: 32px;
+        padding: 40px; text-align: center;
     }
 
-    footer { padding: 40px; border-top: 1px solid var(--border-glow); text-align: center; color: var(--text-secondary); font-size: 0.9rem; }
+    .btn-cta {
+        display: inline-flex; align-items: center; gap: 12px;
+        background: linear-gradient(105deg, var(--accent-primary), var(--accent-gradient-end));
+        padding: 16px 40px; border-radius: 60px; font-weight: 800; color: #000; text-decoration: none;
+    }
+
+    /* FAQ */
+    .faq-grid { max-width: 800px; margin: 0 auto; text-align: left; }
+    .faq-item { background: rgba(255,255,255,0.03); border-radius: 20px; margin-bottom: 16px; padding: 20px; cursor: pointer; }
+    .faq-answer { max-height: 0; overflow: hidden; transition: 0.3s; color: var(--text-secondary); }
+    .faq-item.active .faq-answer { max-height: 200px; padding-top: 15px; }
+
+    footer { text-align: center; padding: 40px 0; border-top: 1px solid var(--border-glow); color: var(--text-secondary); }
+
+    @media (max-width: 768px) {
+        .nav-links { display: none; }
+        .section-title { font-size: 1.8rem; }
+    }
 </style>
 </head>
 <body>
 
 <div class="animated-bg"></div>
+<div class="grid-overlay"></div>
 
 <header class="header">
     <div class="header-content">
         <div class="logo">POSICIONE<span style="color: var(--accent-primary);">+</span></div>
-        <a href="https://wa.me/5591981881328" class="btn-plan" style="padding: 8px 20px; font-size: 0.9rem;">GARANTIR VAGA</a>
+        <div class="nav-links">
+            <a href="#proposta">Proposta</a>
+            <a href="#planos">Planos</a>
+            <a href="#faq">FAQ</a>
+            <a href="https://wa.me/5591981881328" class="btn-wpp-small"><i class="fab fa-whatsapp"></i> Garantir Oferta</a>
+        </div>
     </div>
 </header>
 
 <div class="container">
-    <section style="margin-top: 120px;">
-        <h1 class="section-title">POSICIONE<span style="color: var(--accent-primary);">+</span></h1>
+    <section style="margin-top: 120px; text-align: center;">
+        <h1 style="font-size: 4rem; margin-bottom: 20px;">POSICIONE<span style="color: var(--accent-primary);">+</span></h1>
         <div class="divider-center"></div>
-        <p style="font-size: 1.2rem; margin-bottom: 30px;">ESTRATÉGIAS, TECNOLOGIA E RESULTADOS REAIS</p>
-
+        <p style="font-size: 1.4rem; max-width: 800px; margin: 20px auto;">ESTRATÉGIAS, TECNOLOGIA E RESULTADOS REAIS</p>
+        
         <div class="timer-wrapper">
             <div class="timer-banner">
                 <div class="timer-content">
-                    <span style="font-size: 0.7rem; font-weight: 700; letter-spacing: 1px;">A OFERTA EXPIRA EM:</span>
+                    <div class="timer-label-icon"><span>OFERTA LIMITADA</span></div>
                     <div class="timer-display">
-                        <div class="timer-block">
-                            <span class="timer-number" id="h">00</span><span class="timer-label">h</span>
-                        </div>
-                        <span class="separator">:</span>
-                        <div class="timer-block">
-                            <span class="timer-number" id="m">30</span><span class="timer-label">m</span>
-                        </div>
-                        <span class="separator">:</span>
-                        <div class="timer-block">
-                            <span class="timer-number" id="s">00</span><span class="timer-label">s</span>
-                        </div>
+                        <div class="timer-block"><span class="timer-number" id="h">00</span><span class="timer-label">h</span></div>
+                        <span class="timer-separator">:</span>
+                        <div class="timer-block"><span class="timer-number" id="m">30</span><span class="timer-label">m</span></div>
+                        <span class="timer-separator">:</span>
+                        <div class="timer-block"><span class="timer-number" id="s">59</span><span class="timer-label">s</span></div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <a href="#planos" class="btn-plan" style="display: inline-block; padding: 18px 50px; font-size: 1.1rem;">QUERO ME POSICIONAR AGORA</a>
+        <div class="counter-banner">
+            <span class="counter-number">5</span>
+            <span class="counter-text">vagas restantes este mês</span>
+        </div>
+        
+        <a href="#planos" class="btn-cta"><i class="fas fa-rocket"></i> VER PLANOS</a>
     </section>
 
     <section id="planos">
@@ -126,17 +249,48 @@
         <div class="plans-grid">
             <div class="plan-card">
                 <h3>Essencial</h3>
-                <div class="plan-price">R$ 997<small style="font-size: 1rem;">/mês</small></div>
-                <p style="margin-bottom: 20px; color: var(--text-secondary);">Ideal para quem está a começar.</p>
-                <a href="https://wa.me/5591981881328?text=Olá!+Quero+o+plano+Essencial" class="btn-plan">ASSINAR ESSENCIAL</a>
+                <div class="plan-price">R$ 997<small>/mês</small></div>
+                <ul class="plan-features">
+                    <li><i class="fas fa-check"></i> Site Institucional</li>
+                    <li><i class="fas fa-check"></i> Gestão de Redes Sociais</li>
+                    <li><i class="fas fa-check"></i> Hospedagem Inclusa</li>
+                </ul>
+                <a href="https://wa.me/5591981881328?text=Olá!+Quero+o+plano+Essencial" class="btn-plan">Assinar Agora</a>
             </div>
 
             <div class="plan-card popular">
-                <h3 style="color: var(--accent-primary);">Performance</h3>
-                <div class="plan-price">R$ 2.497<small style="font-size: 1rem;">/mês</small></div>
-                <p style="margin-bottom: 20px; color: var(--text-secondary);">Gestão de Tráfego + Automação Completa.</p>
-                <a href="https://wa.me/5591981881328?text=Olá!+Quero+o+plano+Performance" class="btn-plan">ASSINAR PERFORMANCE</a>
+                <div class="popular-badge">🔥 RECOMENDADO</div>
+                <h3>Performance</h3>
+                <div class="plan-price">R$ 2.497<small>/mês</small></div>
+                <ul class="plan-features">
+                    <li><i class="fas fa-check"></i> Tudo do Essencial +</li>
+                    <li><i class="fas fa-check"></i> R$ 1.000 em Tráfego Pago</li>
+                    <li><i class="fas fa-check"></i> Automação (n8n/Make)</li>
+                </ul>
+                <a href="https://wa.me/5591981881328?text=Olá!+Quero+o+plano+Performance" class="btn-plan btn-plan-primary">Assinar Agora</a>
             </div>
+        </div>
+    </section>
+
+    <section id="faq">
+        <h2 class="section-title">Dúvidas <span style="color: var(--accent-primary);">Frequentes</span></h2>
+        <div class="faq-grid">
+            <div class="faq-item" onclick="this.classList.toggle('active')">
+                <div class="faq-question">Como funciona a assinatura? <i class="fas fa-chevron-down"></i></div>
+                <div class="faq-answer">É um modelo recorrente onde cuidamos de toda sua infraestrutura digital, anúncios e estratégia mensalmente.</div>
+            </div>
+            <div class="faq-item" onclick="this.classList.toggle('active')">
+                <div class="faq-question">Posso cancelar quando quiser? <i class="fas fa-chevron-down"></i></div>
+                <div class="faq-answer">Sim, não trabalhamos com fidelidade forçada. Queremos que você fique pelos resultados.</div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contato">
+        <div class="glass-card">
+            <h2>Pronto para o <span style="color: var(--accent-primary);">próximo nível</span>?</h2>
+            <p style="margin: 20px 0;">Fale conosco agora e garanta sua vaga.</p>
+            <a href="https://wa.me/5591981881328" class="btn-cta"><i class="fab fa-whatsapp"></i> FALAR NO WHATSAPP</a>
         </div>
     </section>
 </div>
@@ -147,35 +301,27 @@
 </footer>
 
 <script>
-    // Configuração do tempo: 00:30:00 (em segundos)
-    let totalSegundos = (0 * 3600) + (30 * 60) + 0;
+    // Inicializa em 30 minutos e 59 segundos
+    let totalSeconds = (0 * 3600) + (30 * 60) + 59;
 
-    const elH = document.getElementById('h');
-    const elM = document.getElementById('m');
-    const elS = document.getElementById('s');
+    function updateTimer() {
+        const h = Math.floor(totalSeconds / 3600);
+        const m = Math.floor((totalSeconds % 3600) / 60);
+        const s = totalSeconds % 60;
 
-    function iniciarCronometro() {
-        const intervalo = setInterval(() => {
-            if (totalSegundos <= 0) {
-                clearInterval(intervalo);
-                return;
-            }
+        document.getElementById('h').innerText = h.toString().padStart(2, '0');
+        document.getElementById('m').innerText = m.toString().padStart(2, '0');
+        document.getElementById('s').innerText = s.toString().padStart(2, '0');
 
-            totalSegundos--;
-
-            let horas = Math.floor(totalSegundos / 3600);
-            let minutos = Math.floor((totalSegundos % 3600) / 60);
-            let segundos = totalSegundos % 60;
-
-            // Atualiza o HTML com zero à esquerda
-            elH.innerText = horas < 10 ? "0" + horas : horas;
-            elM.innerText = minutos < 10 ? "0" + minutos : minutos;
-            elS.innerText = segundos < 10 ? "0" + segundos : segundos;
-
-        }, 1000);
+        if (totalSeconds > 0) {
+            totalSeconds--;
+        } else {
+            clearInterval(timerInterval);
+        }
     }
 
-    window.onload = iniciarCronometro;
+    const timerInterval = setInterval(updateTimer, 1000);
+    updateTimer();
 </script>
 
 </body>
