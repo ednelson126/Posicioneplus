@@ -7,27 +7,15 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <style>
-    /* ============================================
-       🎨 VARIÁVEIS EDITÁVEIS
-    ============================================ */
     :root {
         --bg-dark: #010101;
         --bg-card: rgba(12, 12, 18, 0.65);
         --accent-primary: #deff9a;
-        --accent-gradient-start: #deff9a;
-        --accent-gradient-end: #a8e05a;
         --text-primary: #e8e8e8;
         --text-secondary: #aaaaaa;
-        --gradient-bg-1: #0a0a0a;
-        --gradient-bg-2: #000000;
-        --glow-color: rgba(222, 255, 154, 0.08);
-        --font-heading: 'Space Grotesk', 'Inter', sans-serif;
-        --font-body: 'Inter', sans-serif;
         --border-glow: rgba(222, 255, 154, 0.15);
-        --shadow-cta: rgba(222, 255, 154, 0.2);
-        --danger: #ff6b6b;
-        --warning: #ffd93d;
-        --success: #4ade80;
+        --font-heading: 'Space Grotesk', sans-serif;
+        --font-body: 'Inter', sans-serif;
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -38,319 +26,156 @@
         overflow-x: hidden;
     }
 
-    /* Fundo animado */
     .animated-bg {
         position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: radial-gradient(circle at 20% 30%, var(--gradient-bg-1) 0%, var(--gradient-bg-2) 100%);
+        top: 0; left: 0; width: 100%; height: 100%;
+        background: radial-gradient(circle at 20% 30%, #0a0a0a 0%, #000 100%);
         z-index: 0;
     }
-    .animated-bg::before {
-        content: '';
-        position: absolute;
-        width: 200%;
-        height: 200%;
-        top: -50%;
-        left: -50%;
-        background: radial-gradient(circle, var(--glow-color) 0%, transparent 60%);
-        animation: rotateBg 40s linear infinite;
-    }
-    @keyframes rotateBg {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-    }
 
-    .grid-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-image: linear-gradient(var(--accent-primary) 0.5px, transparent 0.5px),
-                          linear-gradient(90deg, var(--accent-primary) 0.5px, transparent 0.5px);
-        background-size: 50px 50px;
-        opacity: 0.03;
-        pointer-events: none;
-        z-index: 1;
-    }
+    .container { position: relative; z-index: 10; max-width: 1400px; margin: 0 auto; padding: 40px 5%; }
 
-    .container {
-        position: relative;
-        z-index: 10;
-        max-width: 1400px;
-        margin: 0 auto;
-        padding: 40px 5%;
-    }
-
-    /* Header fixo */
     .header {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        background: rgba(0,0,0,0.8);
-        backdrop-filter: blur(20px);
-        z-index: 100;
-        padding: 16px 5%;
-        border-bottom: 1px solid var(--border-glow);
+        position: fixed; top: 0; left: 0; right: 0;
+        background: rgba(0,0,0,0.8); backdrop-filter: blur(20px);
+        z-index: 100; padding: 16px 5%; border-bottom: 1px solid var(--border-glow);
     }
-    .header-content {
-        max-width: 1400px;
-        margin: 0 auto;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        flex-wrap: wrap;
-        gap: 20px;
-    }
-    .logo {
-        font-size: 1.6rem;
-        font-weight: 800;
-        font-family: var(--font-heading);
-    }
-    .nav-links {
-        display: flex;
-        gap: 30px;
-        align-items: center;
-        flex-wrap: wrap;
-    }
-    .nav-links a {
-        color: var(--text-primary);
-        text-decoration: none;
-        transition: 0.2s;
-        font-weight: 500;
-    }
-    .nav-links a:hover { color: var(--accent-primary); }
-    .btn-wpp-small {
-        background: var(--accent-primary);
-        color: #000;
-        padding: 8px 20px;
-        border-radius: 60px;
-        font-weight: 700;
-        text-decoration: none;
-    }
+    .header-content { display: flex; justify-content: space-between; align-items: center; }
+    .logo { font-size: 1.6rem; font-weight: 800; font-family: var(--font-heading); }
 
-    section {
-        margin: 80px 0;
-        scroll-margin-top: 100px;
-    }
-    .section-title {
-        text-align: center;
-        font-size: 2.5rem;
-        margin-bottom: 20px;
-    }
-    .divider-center {
-        width: 80px;
-        height: 4px;
-        background: linear-gradient(90deg, var(--accent-primary), transparent);
-        margin: 20px auto;
-    }
+    section { margin: 80px 0; text-align: center; }
+    .section-title { font-size: 2.5rem; margin-bottom: 20px; }
+    .divider-center { width: 80px; height: 4px; background: var(--accent-primary); margin: 20px auto; }
 
-    /* TIMER REGRESSIVO - COMPACTO */
-    .timer-wrapper {
-        max-width: 480px;
-        margin: 0 auto 40px auto;
-    }
+    /* TIMER REGRESSIVO - FORMATO HH:MM:SS */
+    .timer-wrapper { max-width: 500px; margin: 0 auto 40px auto; }
     .timer-banner {
-        background: linear-gradient(135deg, rgba(0,0,0,0.7) 0%, rgba(222,255,154,0.05) 100%);
-        border: 1px solid rgba(222,255,154,0.2);
+        background: rgba(222, 255, 154, 0.05);
+        border: 1px solid var(--border-glow);
         border-radius: 60px;
-        padding: 12px 20px;
+        padding: 15px 25px;
         backdrop-filter: blur(12px);
     }
-    .timer-content {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 15px;
-        flex-wrap: wrap;
-    }
-    .timer-label-icon {
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        background: rgba(222,255,154,0.1);
-        padding: 5px 12px;
-        border-radius: 40px;
-    }
-    .timer-label-icon span {
-        font-size: 0.7rem;
-        font-weight: 600;
-        color: var(--accent-primary);
-    }
-    .timer-display {
-        display: flex;
-        align-items: center;
-        gap: 5px;
-    }
-    .timer-block {
-        display: flex;
-        align-items: baseline;
-    }
-    .timer-number {
-        font-size: 1.3rem;
-        font-weight: 800;
-        font-family: 'Space Grotesk', monospace;
-        color: var(--accent-primary);
-        min-width: 35px;
-    }
-    .timer-label { font-size: 0.6rem; color: var(--text-secondary); margin-left: 2px; }
+    .timer-content { display: flex; align-items: center; justify-content: center; gap: 12px; }
+    .timer-display { display: flex; align-items: center; gap: 8px; }
+    .timer-block { display: flex; align-items: baseline; background: rgba(0,0,0,0.3); padding: 5px 10px; border-radius: 12px; }
+    .timer-number { font-size: 1.5rem; font-weight: 800; font-family: 'Space Grotesk', monospace; color: var(--accent-primary); min-width: 35px; }
+    .timer-label { font-size: 0.65rem; color: var(--text-secondary); margin-left: 2px; text-transform: uppercase; }
+    .separator { color: var(--accent-primary); font-weight: bold; font-size: 1.2rem; }
 
-    /* Cards e Grid */
-    .plans-grid {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 30px;
-    }
+    /* Cards de Planos */
+    .plans-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; margin-top: 40px; }
     .plan-card {
-        background: var(--bg-card);
-        backdrop-filter: blur(14px);
-        border: 1px solid var(--border-glow);
-        border-radius: 32px;
-        padding: 40px 30px;
-        width: 100%;
-        max-width: 350px;
-        transition: 0.3s;
+        background: var(--bg-card); border: 1px solid var(--border-glow);
+        border-radius: 32px; padding: 40px 30px; width: 100%; max-width: 350px;
     }
-    .plan-card.popular { border: 2px solid var(--accent-primary); }
+    .plan-card.popular { border: 2px solid var(--accent-primary); transform: scale(1.05); }
     .plan-price { font-size: 2.8rem; font-weight: 800; color: var(--accent-primary); margin: 20px 0; }
-    .plan-features { list-style: none; margin: 25px 0; text-align: left;}
-    .plan-features li { margin: 12px 0; display: flex; align-items: center; gap: 10px; font-size: 0.9rem;}
-    .btn-plan {
-        display: block;
-        text-align: center;
-        background: rgba(222,255,154,0.15);
-        padding: 14px;
-        border-radius: 60px;
-        color: var(--text-primary);
-        text-decoration: none;
-        font-weight: 700;
-        transition: 0.2s;
-    }
-    .btn-plan:hover, .btn-plan-primary { background: var(--accent-primary); color: #000; }
-
-    .glass-card {
-        background: var(--bg-card);
-        backdrop-filter: blur(14px);
-        border: 1px solid var(--border-glow);
-        border-radius: 32px;
-        padding: 40px;
-        text-align: center;
-    }
     
-    /* FAQ */
-    .faq-grid { max-width: 800px; margin: 0 auto; text-align: left; }
-    .faq-item { background: rgba(255,255,255,0.03); border-radius: 20px; margin-bottom: 12px; padding: 20px; cursor: pointer; }
-    .faq-answer { display: none; padding-top: 15px; color: var(--text-secondary); }
-    .faq-item.active .faq-answer { display: block; }
+    .btn-plan {
+        display: block; text-align: center; background: var(--accent-primary);
+        color: #000; padding: 14px; border-radius: 60px; text-decoration: none; font-weight: 700;
+    }
 
-    footer { text-align: center; padding: 40px 0; border-top: 1px solid var(--border-glow); color: var(--text-secondary); }
+    footer { padding: 40px; border-top: 1px solid var(--border-glow); text-align: center; color: var(--text-secondary); font-size: 0.9rem; }
 </style>
 </head>
 <body>
 
 <div class="animated-bg"></div>
-<div class="grid-overlay"></div>
 
 <header class="header">
     <div class="header-content">
         <div class="logo">POSICIONE<span style="color: var(--accent-primary);">+</span></div>
-        <div class="nav-links">
-            <a href="#proposta">Proposta</a>
-            <a href="#planos">Planos</a>
-            <a href="#faq">FAQ</a>
-            <a href="https://wa.me/5591981881328" class="btn-wpp-small"><i class="fab fa-whatsapp"></i> Garantir Oferta</a>
-        </div>
+        <a href="https://wa.me/5591981881328" class="btn-plan" style="padding: 8px 20px; font-size: 0.9rem;">GARANTIR VAGA</a>
     </div>
 </header>
 
 <div class="container">
-    <section style="margin-top: 120px; text-align: center;">
-        <h1 style="font-size: 3.5rem; margin-bottom: 20px;">POSICIONE<span style="color: var(--accent-primary);">+</span></h1>
+    <section style="margin-top: 120px;">
+        <h1 class="section-title">POSICIONE<span style="color: var(--accent-primary);">+</span></h1>
         <div class="divider-center"></div>
-        <p style="font-size: 1.2rem; max-width: 800px; margin: 20px auto;">Estratégias, Tecnologia e Resultados Reais para o seu negócio.</p>
-        
+        <p style="font-size: 1.2rem; margin-bottom: 30px;">ESTRATÉGIAS, TECNOLOGIA E RESULTADOS REAIS</p>
+
         <div class="timer-wrapper">
             <div class="timer-banner">
                 <div class="timer-content">
-                    <div class="timer-label-icon"><span>OFERTA EXPIRA EM:</span></div>
+                    <span style="font-size: 0.7rem; font-weight: 700; letter-spacing: 1px;">A OFERTA EXPIRA EM:</span>
                     <div class="timer-display">
-                        <div class="timer-block"><span class="timer-number" id="t-min">30</span><span class="timer-label">m</span></div>
-                        <span style="color:var(--accent-primary); font-weight: bold;">:</span>
-                        <div class="timer-block"><span class="timer-number" id="t-sec">00</span><span class="timer-label">s</span></div>
+                        <div class="timer-block">
+                            <span class="timer-number" id="h">00</span><span class="timer-label">h</span>
+                        </div>
+                        <span class="separator">:</span>
+                        <div class="timer-block">
+                            <span class="timer-number" id="m">30</span><span class="timer-label">m</span>
+                        </div>
+                        <span class="separator">:</span>
+                        <div class="timer-block">
+                            <span class="timer-number" id="s">00</span><span class="timer-label">s</span>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        
-        <a href="#planos" class="btn-plan btn-plan-primary" style="display:inline-block; padding: 16px 40px;">VER PLANOS DE ASSINATURA</a>
+
+        <a href="#planos" class="btn-plan" style="display: inline-block; padding: 18px 50px; font-size: 1.1rem;">QUERO ME POSICIONAR AGORA</a>
     </section>
 
     <section id="planos">
-        <h2 class="section-title">Nossos <span style="color: var(--accent-primary);">Planos</span></h2>
+        <h2 class="section-title">Planos de <span style="color: var(--accent-primary);">Assinatura</span></h2>
         <div class="plans-grid">
             <div class="plan-card">
-                <div style="font-size: 1.5rem; font-weight: 700;">Essencial</div>
-                <div class="plan-price">R$ 997<small>/mês</small></div>
-                <ul class="plan-features">
-                    <li><i class="fas fa-check"></i> Site Institucional</li>
-                    <li><i class="fas fa-check"></i> Redes Sociais (10 posts)</li>
-                    <li><i class="fas fa-check"></i> Suporte WhatsApp</li>
-                </ul>
-                <a href="https://wa.me/5591981881328?text=Quero+o+Plano+Essencial" class="btn-plan">Assinar Agora</a>
+                <h3>Essencial</h3>
+                <div class="plan-price">R$ 997<small style="font-size: 1rem;">/mês</small></div>
+                <p style="margin-bottom: 20px; color: var(--text-secondary);">Ideal para quem está a começar.</p>
+                <a href="https://wa.me/5591981881328?text=Olá!+Quero+o+plano+Essencial" class="btn-plan">ASSINAR ESSENCIAL</a>
             </div>
-            <div class="plan-card popular">
-                <div style="font-size: 1.5rem; font-weight: 700;">Performance</div>
-                <div class="plan-price">R$ 2.497<small>/mês</small></div>
-                <ul class="plan-features">
-                    <li><i class="fas fa-check"></i> Tudo do Essencial</li>
-                    <li><i class="fas fa-check"></i> Gestão de Tráfego Pago</li>
-                    <li><i class="fas fa-check"></i> Automação (n8n/Make)</li>
-                </ul>
-                <a href="https://wa.me/5591981881328?text=Quero+o+Plano+Performance" class="btn-plan btn-plan-primary">Assinar Agora</a>
-            </div>
-        </div>
-    </section>
 
-    <section id="faq">
-        <h2 class="section-title">Dúvidas <span style="color: var(--accent-primary);">Frequentes</span></h2>
-        <div class="faq-grid">
-            <div class="faq-item" onclick="this.classList.toggle('active')">
-                <div style="font-weight: bold;">Como funciona a garantia? <i class="fas fa-chevron-down" style="float:right"></i></div>
-                <div class="faq-answer">Oferecemos 7 dias de garantia incondicional para você testar nossos serviços.</div>
-            </div>
-            <div class="faq-item" onclick="this.classList.toggle('active')">
-                <div style="font-weight: bold;">O tráfego pago está incluso? <i class="fas fa-chevron-down" style="float:right"></i></div>
-                <div class="faq-answer">No plano Performance, já incluímos a gestão e uma verba inicial para anúncios.</div>
+            <div class="plan-card popular">
+                <h3 style="color: var(--accent-primary);">Performance</h3>
+                <div class="plan-price">R$ 2.497<small style="font-size: 1rem;">/mês</small></div>
+                <p style="margin-bottom: 20px; color: var(--text-secondary);">Gestão de Tráfego + Automação Completa.</p>
+                <a href="https://wa.me/5591981881328?text=Olá!+Quero+o+plano+Performance" class="btn-plan">ASSINAR PERFORMANCE</a>
             </div>
         </div>
     </section>
 </div>
 
 <footer>
-    <p>&copy; 2026 Posicione+ | ESTRATÉGIAS, TECNOLOGIA E RESULTADOS REAIS</p>
+    <p>POSICIONE+ &copy; 2026 | Belém - Pará</p>
     <p>contato.posicioneplus@gmail.com | (91) 98188-1328</p>
 </footer>
 
 <script>
-    // LÓGICA DO CRONÔMETRO - 30 MINUTOS
-    let tempo = 30 * 60; // 30 minutos em segundos
-    const displayMin = document.getElementById('t-min');
-    const displaySec = document.getElementById('t-sec');
+    // Configuração do tempo: 00:30:00 (em segundos)
+    let totalSegundos = (0 * 3600) + (30 * 60) + 0;
 
-    setInterval(() => {
-        if (tempo > 0) {
-            tempo--;
-            let mins = Math.floor(tempo / 60);
-            let secs = tempo % 60;
-            displayMin.innerText = mins < 10 ? '0' + mins : mins;
-            displaySec.innerText = secs < 10 ? '0' + secs : secs;
-        }
-    }, 1000);
+    const elH = document.getElementById('h');
+    const elM = document.getElementById('m');
+    const elS = document.getElementById('s');
+
+    function iniciarCronometro() {
+        const intervalo = setInterval(() => {
+            if (totalSegundos <= 0) {
+                clearInterval(intervalo);
+                return;
+            }
+
+            totalSegundos--;
+
+            let horas = Math.floor(totalSegundos / 3600);
+            let minutos = Math.floor((totalSegundos % 3600) / 60);
+            let segundos = totalSegundos % 60;
+
+            // Atualiza o HTML com zero à esquerda
+            elH.innerText = horas < 10 ? "0" + horas : horas;
+            elM.innerText = minutos < 10 ? "0" + minutos : minutos;
+            elS.innerText = segundos < 10 ? "0" + segundos : segundos;
+
+        }, 1000);
+    }
+
+    window.onload = iniciarCronometro;
 </script>
 
 </body>
