@@ -149,7 +149,7 @@
         margin: 20px auto;
     }
 
-    /* TIMER REGRESSIVO - COMPACTO */
+    /* TIMER REGRESSIVO - FORMATO 00:30:59 */
     .timer-wrapper {
         max-width: 480px;
         margin: 0 auto 40px auto;
@@ -678,7 +678,7 @@
         <div class="divider-center"></div>
         <p style="font-size: 1.4rem; max-width: 800px; margin: 20px auto;">A assinatura que transforma seu negócio em uma <strong style="color: var(--accent-primary);">autoridade digital</strong> com resultados mensuráveis</p>
         
-        <!-- TIMER REGRESSIVO - 30 MINUTOS -->
+        <!-- TIMER REGRESSIVO - FORMATO 00:30:59 -->
         <div class="timer-wrapper">
             <div class="timer-banner">
                 <div class="timer-content">
@@ -687,9 +687,11 @@
                         <span>OFERTA RELÂMPAGO</span>
                     </div>
                     <div class="timer-display" id="timerDisplay">
-                        <div class="timer-block"><span class="timer-number" id="timerMinutes">30</span><span class="timer-label">min</span></div>
+                        <div class="timer-block"><span class="timer-number" id="timerHours">00</span><span class="timer-label">h</span></div>
                         <span class="timer-separator">:</span>
-                        <div class="timer-block"><span class="timer-number" id="timerSeconds">00</span><span class="timer-label">s</span></div>
+                        <div class="timer-block"><span class="timer-number" id="timerMinutes">30</span><span class="timer-label">m</span></div>
+                        <span class="timer-separator">:</span>
+                        <div class="timer-block"><span class="timer-number" id="timerSeconds">59</span><span class="timer-label">s</span></div>
                     </div>
                     <div class="timer-note">
                         <i class="fas fa-bolt"></i>
@@ -910,9 +912,9 @@
 </div>
 
 <script>
-    // TIMER REGRESSIVO - 30 MINUTOS
-    function startTimer(initialMinutes, initialSeconds = 0) {
-        let totalSeconds = (initialMinutes * 60) + initialSeconds;
+    // TIMER REGRESSIVO - FORMATO 00:30:59
+    function startTimer(initialHours, initialMinutes, initialSeconds) {
+        let totalSeconds = (initialHours * 3600) + (initialMinutes * 60) + initialSeconds;
         
         function updateTimer() {
             if (totalSeconds <= 0) {
@@ -920,9 +922,11 @@
                 return;
             }
             
-            const minutes = Math.floor(totalSeconds / 60);
+            const hours = Math.floor(totalSeconds / 3600);
+            const minutes = Math.floor((totalSeconds % 3600) / 60);
             const seconds = totalSeconds % 60;
             
+            document.getElementById('timerHours').textContent = String(hours).padStart(2, '0');
             document.getElementById('timerMinutes').textContent = String(minutes).padStart(2, '0');
             document.getElementById('timerSeconds').textContent = String(seconds).padStart(2, '0');
             
@@ -933,8 +937,8 @@
         setInterval(updateTimer, 1000);
     }
     
-    // Iniciar timer com 30 minutos e 59 segundos (00:30:59)
-    startTimer(30, 59);
+    // Iniciar timer com 00:30:59 (0 horas, 30 minutos e 59 segundos)
+    startTimer(0, 30, 59);
 
     // CONTADOR DE VAGAS
     let currentVacancies = 5;
