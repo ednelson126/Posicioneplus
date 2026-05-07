@@ -36,6 +36,7 @@
         background: var(--bg-dark);
         color: var(--text-primary);
         overflow-x: hidden;
+        scroll-behavior: smooth;
     }
 
     /* Fundo animado */
@@ -131,6 +132,11 @@
         border-radius: 60px;
         font-weight: 700;
         text-decoration: none;
+        transition: all 0.3s ease;
+    }
+    .btn-wpp-small:hover {
+        transform: scale(1.05);
+        background: #ccee88;
     }
 
     section {
@@ -246,6 +252,56 @@
         color: var(--accent-primary);
     }
 
+    /* BARRA DE PROGRESSO DE VAGAS - NOVA */
+    .progress-wrapper {
+        max-width: 500px;
+        margin: 0 auto 30px auto;
+    }
+    .progress-header {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 8px;
+        font-size: 0.8rem;
+    }
+    .progress-bar-container {
+        background: rgba(255,255,255,0.1);
+        border-radius: 20px;
+        height: 10px;
+        overflow: hidden;
+    }
+    .progress-fill {
+        background: linear-gradient(90deg, var(--accent-primary), var(--accent-gradient-end));
+        width: 0%;
+        height: 100%;
+        border-radius: 20px;
+        transition: width 0.5s ease;
+        position: relative;
+        overflow: hidden;
+    }
+    .progress-fill::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+        animation: shimmer 1.5s infinite;
+    }
+    @keyframes shimmer {
+        0% { transform: translateX(-100%); }
+        100% { transform: translateX(100%); }
+    }
+    .progress-stats {
+        text-align: center;
+        margin-top: 10px;
+        font-size: 0.75rem;
+        color: var(--text-secondary);
+    }
+    .progress-stats strong {
+        color: var(--accent-primary);
+    }
+
     /* Contador de vagas */
     .counter-banner {
         background: linear-gradient(135deg, rgba(222,255,154,0.12), rgba(0,0,0,0.6));
@@ -274,7 +330,7 @@
         margin-top: 5px;
     }
 
-    /* Cards de planos */
+    /* Cards de planos com efeito 3D e hover melhorado */
     .plans-grid {
         display: flex;
         flex-wrap: wrap;
@@ -290,17 +346,21 @@
         padding: 40px 30px;
         width: 100%;
         max-width: 350px;
-        transition: all 0.3s ease;
+        transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
         position: relative;
+        transform-style: preserve-3d;
     }
     .plan-card:hover {
-        transform: translateY(-10px);
+        transform: translateY(-15px) scale(1.02);
         border-color: var(--accent-primary);
-        box-shadow: 0 25px 40px rgba(0,0,0,0.4);
+        box-shadow: 0 30px 50px rgba(0,0,0,0.5), 0 0 20px rgba(222,255,154,0.2);
     }
     .plan-card.popular {
         border: 2px solid var(--accent-primary);
         transform: scale(1.02);
+    }
+    .plan-card.popular:hover {
+        transform: translateY(-15px) scale(1.03);
     }
     .popular-badge {
         position: absolute;
@@ -330,6 +390,13 @@
         font-weight: 400;
         color: var(--text-secondary);
     }
+    .installment {
+        font-size: 0.8rem;
+        color: var(--text-secondary);
+        margin-top: -15px;
+        margin-bottom: 15px;
+        text-align: center;
+    }
     .old-price {
         font-size: 0.9rem;
         color: var(--danger);
@@ -352,6 +419,17 @@
         margin-bottom: 15px;
         text-align: center;
     }
+    .guarantee-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        background: rgba(74, 222, 128, 0.15);
+        padding: 4px 12px;
+        border-radius: 60px;
+        font-size: 0.7rem;
+        margin-bottom: 15px;
+        color: var(--success);
+    }
     .plan-features {
         list-style: none;
         margin: 25px 0;
@@ -361,6 +439,10 @@
         display: flex;
         align-items: center;
         gap: 10px;
+        transition: transform 0.2s ease;
+    }
+    .plan-features li:hover {
+        transform: translateX(5px);
     }
     .plan-features i {
         color: var(--accent-primary);
@@ -376,19 +458,20 @@
         color: var(--text-primary);
         text-decoration: none;
         font-weight: 700;
-        transition: 0.2s;
+        transition: all 0.3s ease;
         cursor: pointer;
     }
     .btn-plan:hover {
         background: var(--accent-primary);
         color: #000;
+        transform: scale(1.02);
     }
     .btn-plan-primary {
         background: var(--accent-primary);
         color: #000;
     }
     .btn-plan-primary:hover {
-        transform: scale(1.02);
+        transform: scale(1.05);
         box-shadow: 0 8px 25px var(--shadow-cta);
     }
 
@@ -604,6 +687,66 @@
         color: var(--accent-primary);
     }
 
+    /* BOTÃO VOLTAR AO TOPO */
+    .back-to-top {
+        position: fixed;
+        bottom: 100px;
+        right: 30px;
+        background: var(--accent-primary);
+        color: #000;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        z-index: 100;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    }
+    .back-to-top.show {
+        opacity: 1;
+        visibility: visible;
+    }
+    .back-to-top:hover {
+        transform: translateY(-5px);
+        background: #ccee88;
+    }
+
+    /* MINI CHAT FLUTUANTE */
+    .floating-chat {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        background: linear-gradient(135deg, #25D366, #128C7E);
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        z-index: 100;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+        0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.5); }
+        70% { box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+    }
+    .floating-chat:hover {
+        transform: scale(1.1);
+    }
+    .floating-chat i {
+        font-size: 2rem;
+        color: white;
+    }
+
     .faq-grid {
         max-width: 800px;
         margin: 0 auto;
@@ -614,6 +757,10 @@
         margin-bottom: 16px;
         padding: 20px 25px;
         cursor: pointer;
+        transition: 0.2s;
+    }
+    .faq-item:hover {
+        background: rgba(255,255,255,0.06);
     }
     .faq-question {
         display: flex;
@@ -649,6 +796,9 @@
         .timer-label-icon span { font-size: 0.6rem; }
         .counter-number { font-size: 1.8rem; }
         .plan-price { font-size: 2.2rem; }
+        .floating-chat { width: 50px; height: 50px; bottom: 20px; right: 20px; }
+        .floating-chat i { font-size: 1.6rem; }
+        .back-to-top { bottom: 90px; right: 20px; width: 45px; height: 45px; }
     }
 </style>
 </head>
@@ -656,6 +806,16 @@
 
 <div class="animated-bg"></div>
 <div class="grid-overlay"></div>
+
+<!-- MINI CHAT FLUTUANTE WHATSAPP -->
+<div class="floating-chat" id="floatingChat">
+    <i class="fab fa-whatsapp"></i>
+</div>
+
+<!-- BOTÃO VOLTAR AO TOPO -->
+<div class="back-to-top" id="backToTop">
+    <i class="fas fa-arrow-up"></i>
+</div>
 
 <header class="header">
     <div class="header-content">
@@ -701,6 +861,20 @@
             </div>
         </div>
 
+        <!-- BARRA DE PROGRESSO DE VAGAS -->
+        <div class="progress-wrapper">
+            <div class="progress-header">
+                <span>🚀 Vagas preenchidas</span>
+                <span><strong id="filledCount">15</strong>/20</span>
+            </div>
+            <div class="progress-bar-container">
+                <div class="progress-fill" id="progressFill" style="width: 75%;"></div>
+            </div>
+            <div class="progress-stats">
+                <span>🔴 <span id="remainingCount">5</span> vagas restantes - Últimas oportunidades!</span>
+            </div>
+        </div>
+
         <!-- CONTADOR DE VAGAS -->
         <div class="counter-banner">
             <span class="counter-number" id="vacancyCounter">5</span>
@@ -725,18 +899,20 @@
         </div>
     </section>
 
-    <!-- PLANOS DE ASSINATURA - NOVA PRECIFICAÇÃO LUCRO REAL -->
+    <!-- PLANOS DE ASSINATURA - COM SELO DE GARANTIA E PARCELAMENTO -->
     <section id="planos">
         <h2 class="section-title">Planos de <span style="color: var(--accent-primary);">Assinatura</span></h2>
         <div class="divider-center"></div>
         <p style="text-align: center; margin-bottom: 40px;">Escolha o plano ideal para o momento do seu negócio. <strong>Todos com suporte e estratégia dedicada.</strong></p>
         
         <div class="plans-grid">
-            <!-- Plano Essencial - SEM tráfego incluso -->
+            <!-- Plano Essencial -->
             <div class="plan-card">
                 <div class="plan-name">Essencial</div>
                 <div class="plan-price">R$ 997<small>/mês</small></div>
+                <div class="installment"><i class="fas fa-credit-card"></i> ou 12x de R$ 97,00</div>
                 <div class="extra-info"><i class="fas fa-info-circle"></i> Tráfego pago contratado à parte</div>
+                <div class="guarantee-badge"><i class="fas fa-shield-alt"></i> Garantia de 7 dias</div>
                 <ul class="plan-features">
                     <li><i class="fas fa-check"></i> Site institucional otimizado</li>
                     <li><i class="fas fa-check"></i> Gestão de redes sociais (10 posts/mês)</li>
@@ -747,12 +923,14 @@
                 <a href="#" class="btn-plan whatsapp-link" data-message="Olá! Gostaria de contratar o plano ESSENCIAL por R$ 997/mês">Assinar Agora</a>
             </div>
 
-            <!-- Plano Performance - COM tráfego de R$ 1.000 incluso -->
+            <!-- Plano Performance - MAIS VENDIDO -->
             <div class="plan-card popular">
                 <div class="popular-badge">🔥 MAIS VENDIDO</div>
                 <div class="plan-name">Performance</div>
                 <div class="plan-price">R$ 2.497<small>/mês</small><span class="old-price">R$ 2.997</span><span class="price-badge">-17%</span></div>
+                <div class="installment"><i class="fas fa-credit-card"></i> ou 12x de R$ 243,00</div>
                 <div class="extra-info"><i class="fas fa-chart-line"></i> R$ 1.000 em tráfego incluso + gestão</div>
+                <div class="guarantee-badge"><i class="fas fa-trophy"></i> Resultados garantidos em 30 dias</div>
                 <ul class="plan-features">
                     <li><i class="fas fa-check"></i> Tudo do plano Essencial +</li>
                     <li><i class="fas fa-check"></i> Site conversivo + funil automatizado</li>
@@ -765,11 +943,12 @@
                 <a href="#" class="btn-plan btn-plan-primary whatsapp-link" data-message="Olá! Quero contratar o plano PERFORMANCE por R$ 2.497/mês com R$ 1.000 de tráfego incluso">Recomendado → Assinar</a>
             </div>
 
-            <!-- Plano Enterprise - Sob consulta -->
+            <!-- Plano Enterprise -->
             <div class="plan-card">
                 <div class="plan-name">Enterprise</div>
                 <div class="plan-price">Sob consulta</div>
                 <div class="extra-info"><i class="fas fa-crown"></i> Solução 100% personalizada</div>
+                <div class="guarantee-badge"><i class="fas fa-star"></i> Equipe dedicada</div>
                 <ul class="plan-features">
                     <li><i class="fas fa-check"></i> Tudo do plano Performance +</li>
                     <li><i class="fas fa-check"></i> Estratégia 360° personalizada</li>
@@ -783,7 +962,7 @@
         </div>
     </section>
 
-    <!-- SERVIÇOS ADICIONAIS - TRÁFEGO SEPARADO -->
+    <!-- SERVIÇOS ADICIONAIS -->
     <section>
         <h2 class="section-title">Serviços <span style="color: var(--accent-primary);">Adicionais</span></h2>
         <div class="divider-center"></div>
@@ -810,7 +989,7 @@
         </div>
     </section>
 
-    <!-- DEPOIMENTOS DE CLIENTES -->
+    <!-- DEPOIMENTOS -->
     <section id="depoimentos">
         <h2 class="section-title">O que nossos <span style="color: var(--accent-primary);">clientes</span> dizem</h2>
         <div class="divider-center"></div>
@@ -937,16 +1116,31 @@
         setInterval(updateTimer, 1000);
     }
     
-    // Iniciar timer com 00:30:59 (0 horas, 30 minutos e 59 segundos)
     startTimer(0, 30, 59);
 
-    // CONTADOR DE VAGAS
-    let currentVacancies = 5;
-    const counterElement = document.getElementById('vacancyCounter');
-    function updateVacancyCounter() {
-        if (counterElement) counterElement.textContent = currentVacancies;
+    // BARRA DE PROGRESSO DE VAGAS
+    let totalVacancies = 20;
+    let filledVacancies = 15;
+    let currentVacancies = totalVacancies - filledVacancies;
+    
+    function updateProgressBar() {
+        const percentage = (filledVacancies / totalVacancies) * 100;
+        document.getElementById('progressFill').style.width = percentage + '%';
+        document.getElementById('filledCount').textContent = filledVacancies;
+        document.getElementById('remainingCount').textContent = currentVacancies;
+        document.getElementById('vacancyCounter').textContent = currentVacancies;
     }
-    updateVacancyCounter();
+    
+    updateProgressBar();
+    
+    // SIMULAÇÃO DE REDUÇÃO DE VAGAS A CADA 60 SEGUNDOS (opcional)
+    // setInterval(() => {
+    //     if (currentVacancies > 1 && filledVacancies < totalVacancies) {
+    //         filledVacancies++;
+    //         currentVacancies--;
+    //         updateProgressBar();
+    //     }
+    // }, 60000);
 
     // WHATSAPP (NÚMERO OCULTO)
     const WHATSAPP_NUMBER = "5591981881328";
@@ -956,6 +1150,12 @@
         const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`;
         window.open(url, '_blank');
     }
+    
+    // Botão do chat flutuante
+    document.getElementById('floatingChat')?.addEventListener('click', function(e) {
+        e.preventDefault();
+        openWhatsApp("Olá! Vi a proposta da Posicione+ e quero garantir minha oferta!");
+    });
     
     document.querySelectorAll('.whatsapp-link').forEach(btn => {
         btn.addEventListener('click', function(e) {
@@ -973,6 +1173,20 @@
     document.getElementById('whatsappBtnFinal')?.addEventListener('click', function(e) {
         e.preventDefault();
         openWhatsApp("Olá! Vi a proposta completa e quero GARANTIR MINHA OFERTA agora mesmo.");
+    });
+    
+    // BOTÃO VOLTAR AO TOPO
+    const backToTop = document.getElementById('backToTop');
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 300) {
+            backToTop.classList.add('show');
+        } else {
+            backToTop.classList.remove('show');
+        }
+    });
+    
+    backToTop?.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     });
     
     // POP-UP DE SAÍDA
